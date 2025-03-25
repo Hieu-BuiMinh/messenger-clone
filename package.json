@@ -1,0 +1,39 @@
+{
+	"name": "messenger-clone",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+		"format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+		"format:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+		"lint:check": "eslint .",
+		"lint:fix": "next lint --fix",
+		"lint": "next lint",
+		"types:check": "tsc --noEmit --pretty",
+		"prepare": "husky"
+	},
+	"dependencies": {
+		"eslint-config-prettier": "^10.1.1",
+		"eslint-plugin-prettier": "^5.2.5",
+		"eslint-plugin-simple-import-sort": "^12.1.1",
+		"next": "15.2.4",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
+	},
+	"devDependencies": {
+		"@eslint/eslintrc": "^3",
+		"@tailwindcss/postcss": "^4",
+		"@types/node": "^20",
+		"@types/react": "^19",
+		"@types/react-dom": "^19",
+		"eslint": "^9",
+		"eslint-config-next": "15.2.4",
+		"husky": "^9.1.7",
+		"prettier": "3.5.3",
+		"tailwindcss": "^4",
+		"typescript": "^5"
+	}
+}

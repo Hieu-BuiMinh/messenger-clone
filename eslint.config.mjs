@@ -21,6 +21,7 @@ const eslintConfig = [
 			'dist/**',
 			'postcss.config.mjs',
 			'components/ui/*',
+			'eslint.config.mjs',
 		],
 	},
 	{

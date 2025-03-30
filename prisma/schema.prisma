@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // provider = "postgresql"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  // basic user info
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime? @default(now())
+  updatedAt      DateTime? @updatedAt
+
+  // user's conversations
+  conversationsIds String[]       @db.ObjectId
+  conversations    Conversation[] @relation(fields: [conversationsIds], references: [id])
+
+  // user's messages
+  seenMessageIds String[]  @db.ObjectId
+  seenMessages   Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
+  Message        Message[]
+
+  // user's account
+  accounts Account[]
+}
+
+model Conversation {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime? @default(now())
+  lastMessageAt DateTime? @default(now())
+  name          String?
+  isGroup       Boolean?  @default(false)
+
+  // Conversation's message
+  messagesIds String[]  @db.ObjectId
+  messages    Message[]
+
+  // Conversation's users
+  userIds String[] @db.ObjectId
+  Users   User[]   @relation(fields: [userIds], references: [id])
+}
+
+model Message {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  body      String?
+  image     String?
+  createdAt DateTime? @default(now())
+
+  // Message seen by users
+  seenIds   String[] @db.ObjectId
+  seenUsers User[]   @relation("Seen", fields: [seenIds], references: [id])
+
+  // Message's conversation
+  Conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String        @db.ObjectId
+
+  // Message's sender
+  senderIds String @db.ObjectId
+  sender    User   @relation(fields: [senderIds], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+
+  // OAuth access tokens
+  refresh_token String? @db.String
+  access_token  String? @db.String
+  expires_at    Int?    @db.Int
+  token_type    String?
+  scope         String?
+  id_token      String? @db.String
+  session_state String?
+
+  // user account
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+
+  @@unique([provider, providerAccountId])
+}

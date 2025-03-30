@@ -1,15 +1,23 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { signIn, useSession } from 'next-auth/react'
+import { useCallback, useEffect, useState } from 'react'
 import type { FieldValues, SubmitHandler } from 'react-hook-form'
 import { FormProvider, useForm } from 'react-hook-form'
+import { BsGithub, BsGoogle } from 'react-icons/bs'
+import { toast } from 'sonner'
 
+import AuthSocialButton from '@/app/(auth)/components/auth-social-button'
 import Button from '@/components/common/buttons'
 import RHFTextField from '@/components/common/RHFs/RHF-text-field'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
 function AuthForm() {
+	const session = useSession()
+	const router = useRouter()
 	const [variant, setVariant] = useState<Variant>('LOGIN')
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -29,17 +37,56 @@ function AuthForm() {
 		setIsLoading(true)
 		if (variant === 'REGISTER') {
 			// Axios register
+			const promise = axios.post('/api/register', data).finally(() => {
+				methods.reset()
+				setIsLoading(false)
+			})
+			toast.promise(promise, {
+				loading: 'Authenticating...',
+				success: 'Successfully registered',
+				error: 'Something went wrong',
+				position: 'top-center',
+			})
 		}
 		if (variant === 'LOGIN') {
 			// Next auth Sign in
+			const promise = signIn('credentials', { ...data, redirect: false }).finally(() => {
+				methods.reset()
+				setIsLoading(false)
+			})
+			toast.promise(promise, {
+				loading: 'Authenticating...',
+				success: 'Successfully logged in',
+				error: 'Something went wrong',
+				position: 'top-center',
+			})
 		}
 	}
 
-	const socicalAction = (action: string) => {
+	const socialAction = (action: string) => {
 		setIsLoading(true)
 
-		// Next auth social Sign in
+		signIn(action, {
+			redirect: false,
+		}).then((callback) => {
+			if (callback?.error) {
+				toast.error('Something went wrong!', { position: 'top-center' })
+			}
+			if (callback?.ok && !callback?.error) {
+				toast.success('Logged in!', { position: 'top-center' })
+				router.push('/users')
+			}
+		})
+
+		setIsLoading(false)
 	}
+
+	useEffect(() => {
+		if (session.status === 'authenticated') {
+			toast.success('Logged in!', { position: 'top-center' })
+			router.push('/users')
+		}
+	}, [session?.status, router])
 
 	return (
 		<div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md text-foreground">
@@ -68,8 +115,8 @@ function AuthForm() {
 					</div>
 
 					<div className="mt-6 flex gap-2">
-						{/* <AuthSocialButton icon={BsGithub} onClick={() => socialAction('github')} />
-						<AuthSocialButton icon={BsGoogle} onClick={() => socialAction('google')} /> */}
+						<AuthSocialButton icon={BsGithub} onClick={() => socialAction('github')} />
+						<AuthSocialButton icon={BsGoogle} onClick={() => socialAction('google')} />
 					</div>
 				</div>
 				<div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">

@@ -1,22 +1,7 @@
-'use client'
-
-import { signOut } from 'next-auth/react'
-import React from 'react'
-
-import { Button } from '@/components/ui/button'
+import UsersPageView from '@/views/(routes)/users/pages/users.page'
 
 const UsersPage = () => {
-	return (
-		<div>
-			<Button
-				onClick={() => {
-					signOut()
-				}}
-			>
-				Out
-			</Button>
-		</div>
-	)
+	return <UsersPageView />
 }
 
 export default UsersPage

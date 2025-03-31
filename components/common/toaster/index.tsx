@@ -1,18 +1,16 @@
 'use client'
 
 import { AlertCircleIcon, AlertTriangle, CheckCircle2Icon, InfoIcon } from 'lucide-react'
-import { useTheme } from 'next-themes'
 import { Toaster as Sonner } from 'sonner'
 
 export type ToasterProps = React.ComponentProps<typeof Sonner>
 
 export const Toaster = (props: ToasterProps) => {
-	const { theme: nextTheme } = useTheme()
-	const { theme = nextTheme, toastOptions, ...rest } = props
+	const { toastOptions, ...rest } = props
 
 	return (
 		<Sonner
-			theme={theme as 'light' | 'dark' | 'system' | undefined}
+			theme="light"
 			className="toaster group"
 			toastOptions={{
 				classNames: {

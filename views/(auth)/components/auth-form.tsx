@@ -9,9 +9,9 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { BsGithub, BsGoogle } from 'react-icons/bs'
 import { toast } from 'sonner'
 
-import AuthSocialButton from '@/app/(auth)/components/auth-social-button'
 import Button from '@/components/common/buttons'
 import RHFTextField from '@/components/common/RHFs/RHF-text-field'
+import AuthSocialButton from '@/views/(auth)/components/auth-social-button'
 
 type Variant = 'LOGIN' | 'REGISTER'
 

@@ -30,7 +30,7 @@ const buttonVariants = cva(
 				false: '',
 			},
 			disabled: {
-				true: 'opacity-50 cursor-default cursor-not-allowed',
+				true: 'opacity-50 cursor-not-allowed',
 				false: '',
 			},
 		},

@@ -1,3 +1,5 @@
+'use client'
+
 import type { User } from '@prisma/client'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -34,7 +36,7 @@ const UserBox: FC<UserBoxProps> = ({ user }) => {
 		<>
 			{isLoading && (
 				<div className="size-screen flex items-center justify-center">
-					<Spinner size="icon" />
+					<Spinner size="lg" />
 				</div>
 			)}
 			<div

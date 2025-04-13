@@ -6,9 +6,9 @@ interface IParams {
 	conversationId?: string
 }
 
-export async function POST(req: Request, { params }: any) {
+export async function DELETE(req: Request, { params }: { params: Promise<IParams> }) {
 	try {
-		const { conversationId } = params
+		const { conversationId } = await params
 		const currentUser = await getCurrentUser()
 
 		if (!currentUser?.id || !currentUser.email) {

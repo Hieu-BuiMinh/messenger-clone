@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 				data: {
 					name,
 					isGroup,
-					Users: {
+					users: {
 						connect: [
 							...members.map((member: { value: string }) => ({ id: member.value })),
 							{ id: currentUser.id },
@@ -36,11 +36,11 @@ export async function POST(req: Request) {
 				so we can use it to show the user's data
 				*/
 				include: {
-					Users: true,
+					users: true,
 				},
 			})
 
-			newConversation?.Users.forEach((user) => {
+			newConversation?.users.forEach((user) => {
 				if (user.email) {
 					//
 				}
@@ -70,11 +70,11 @@ export async function POST(req: Request) {
 		}
 
 		const newConversation = await prisma?.conversation.create({
-			data: { Users: { connect: [{ id: currentUser.id }, { id: userId }] } },
-			include: { Users: true },
+			data: { users: { connect: [{ id: currentUser.id }, { id: userId }] } },
+			include: { users: true },
 		})
 
-		newConversation?.Users.forEach((user) => {
+		newConversation?.users.forEach((user) => {
 			if (user.email) {
 				//
 			}

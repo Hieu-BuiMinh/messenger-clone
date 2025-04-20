@@ -36,6 +36,7 @@ model User {
 
   // user's account
   accounts Account[]
+
 }
 
 model Conversation {
@@ -51,7 +52,7 @@ model Conversation {
 
   // Conversation's users
   userIds String[] @db.ObjectId
-  Users   User[]   @relation(fields: [userIds], references: [id])
+  users   User[]   @relation(fields: [userIds], references: [id])
 }
 
 model Message {

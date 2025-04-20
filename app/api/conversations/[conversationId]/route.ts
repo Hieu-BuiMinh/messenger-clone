@@ -21,7 +21,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<IParams
 
 		const conversation = await prisma?.conversation.findUnique({
 			where: { id: conversationId },
-			include: { Users: true },
+			include: { users: true },
 		})
 
 		if (!conversation) {

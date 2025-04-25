@@ -1,4 +1,5 @@
 import getSession from '@/actions/get-session'
+import prisma from '@/app/libs/prismadb'
 
 /* eslint-disable no-console */
 const getCurrentUser = async () => {

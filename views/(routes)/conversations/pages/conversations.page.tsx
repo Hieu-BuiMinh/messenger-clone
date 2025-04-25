@@ -1,7 +1,7 @@
 import React from 'react'
 
 function ConversationsPageView() {
-	return <div>ConversationsPageView</div>
+	return <div></div>
 }
 
 export default ConversationsPageView

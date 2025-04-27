@@ -22,7 +22,7 @@ async function ConversationPageView({ conversationId }: { conversationId: string
 	}
 
 	return (
-		<div className="lg:pl-80 h-full">
+		<div className="lg:pl-80 h-screen">
 			<div className="h-full flex flex-col">
 				<Header conversation={conversation} />
 				<Body initialMessages={messages} />

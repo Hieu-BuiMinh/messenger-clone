@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import getCurrentUser from '@/actions/get-current-user'
+import prisma from '@/app/libs/prismadb'
 
 interface IParams {
 	conversationId?: string
